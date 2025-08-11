@@ -8,21 +8,39 @@ import seaborn as sns
 from sklearn.metrics import roc_curve, auc, confusion_matrix
 import os
 
-# Configuration - UPDATED PATH HANDLING
+# Configuration - UPDATED PATH HANDLING (your original structure preserved)
 current_dir = Path(__file__).parent
-
-# The `strokerisk_tune_ensemble_model.pkl` file is in the same directory as app.py
 MODEL_PATH = current_dir / "strokerisk_tune_ensemble_model.pkl"
 DATA_SAMPLE_PATH = current_dir / "stroke.csv"
 
-# Robust model loading with error handling
+# Safe model loading (adds error handling without restructuring)
 try:
-    # Verify model file exists
     if not MODEL_PATH.exists():
-        raise FileNotFoundError(f"Model file not found at {MODEL_PATH}")
+        raise FileNotFoundError(f"Model file missing at: {MODEL_PATH.absolute()}")
     
-    # Load model data
     model_data = joblib.load(MODEL_PATH)
+    
+    # Minimal model validation
+    model = model_data.get("model") if isinstance(model_data, dict) else model_data
+    if not hasattr(model, 'predict'):
+        raise ValueError("Invalid model format - missing predict() method")
+    
+except Exception as e:
+    st.error(f"⚠️ Model loading failed: {str(e)}")
+    st.warning(f"Current directory contents: {os.listdir(current_dir)}")
+    
+    # Create safe fallback (won't break your existing code)
+    class SafeModel:
+        def predict(self, X):
+            return [0] * len(X)
+        def predict_proba(self, X):
+            return [[0.7, 0.3] for _ in X]
+    
+    model = SafeModel()
+    model_data = {"model": model, "feature_columns": []}
+    
+    # Optional: Continue running with warnings
+    st.warning("Running in fallback mode with dummy model")
     
     # Handle different model saving formats
     if isinstance(model_data, dict):
