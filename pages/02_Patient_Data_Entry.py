@@ -4,7 +4,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 try:
-    from Final_StrokeAPP.StrokeRisk_Predict_Tool.stroke_predictor_pkl import predict_stroke_risk
+    from .stroke_predictor_pkl import predict_stroke_risk
 except ModuleNotFoundError:
     st.error("Could not import 'stroke_predictor_pkl'. Please ensure the file exists in the parent directory and is named correctly.")
     def predict_stroke_risk(*args, **kwargs):
