@@ -2,13 +2,22 @@ import streamlit as st
 import pandas as pd
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# Get the absolute path to the root of your project
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Append the project root to the system path
+# This allows you to import modules from the project root
+sys.path.append(project_root)
+
+# Now, you can perform an absolute import
+# This path is relative to the project root you just added
 try:
-    from .stroke_predictor_pkl import predict_stroke_risk
-except ModuleNotFoundError:
-    st.error("Could not import 'stroke_predictor_pkl'. Please ensure the file exists in the parent directory and is named correctly.")
+    from stroke_predictor_pkl import predict_stroke_risk
+except ModuleNotFoundError as e:
+    st.error(f"Could not import 'stroke_predictor_pkl'. Error: {e}")
+    st.info("Please ensure the `stroke_predictor_pkl.py` file is in the root directory and the project structure is correct.")
     def predict_stroke_risk(*args, **kwargs):
-        raise ImportError("stroke_predictor_pkl module not found.")
+        raise ImportError(f"stroke_predictor_pkl module not found: {e}")
 
 def patient_data_entry():
     st.set_page_config(page_title="Patient Data Entry", layout="wide")
