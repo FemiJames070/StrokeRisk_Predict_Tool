@@ -10,8 +10,10 @@ import os
 
 # Configuration - UPDATED PATH HANDLING
 current_dir = Path(__file__).parent
+
+# The `strokerisk_tune_ensemble_model.pkl` file is in the same directory as app.py
 MODEL_PATH = current_dir / "strokerisk_tune_ensemble_model.pkl"
-DATA_SAMPLE_PATH = current_dir / "data" / "sample_data.csv"
+DATA_SAMPLE_PATH = current_dir / "stroke.csv"
 
 # Robust model loading with error handling
 try:
