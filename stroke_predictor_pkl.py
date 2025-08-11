@@ -7,6 +7,7 @@ from io import BytesIO
 import seaborn as sns
 from sklearn.metrics import roc_curve, auc, confusion_matrix
 import os
+import streamlit as st
 
 # Configuration - UPDATED PATH HANDLING (your original structure preserved)
 current_dir = Path(__file__).parent
