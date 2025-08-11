@@ -1,11 +1,8 @@
 streamlit
 pandas
+numpy
+joblib
 matplotlib
 seaborn
+scikit-learn
 xgboost
-pycaret
-scikit-learn==1.0.2  # Most stable version for Streamlit Cloud
-joblib==1.1.0
-numpy==1.21.6  # Required compatible version
-scipy==1.7.3
-
