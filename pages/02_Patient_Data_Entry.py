@@ -3,21 +3,29 @@ import pandas as pd
 import sys
 import os
 # Get the absolute path to the root of your project
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Get the project root (one level up from pages/)
+project_root = os.path.abspath(os.path.join(current_dir, '..'))
 
-# Append the project root to the system path
-# This allows you to import modules from the project root
-sys.path.append(project_root)
+# Add to Python path
+sys.path.insert(0, project_root)
 
-# Now, you can perform an absolute import
-# This path is relative to the project root you just added
+# Now try importing with better error handling
 try:
     from stroke_predictor_pkl import predict_stroke_risk
-except ModuleNotFoundError as e:
-    st.error(f"Could not import 'stroke_predictor_pkl'. Error: {e}")
-    st.info("Please ensure the `stroke_predictor_pkl.py` file is in the root directory and the project structure is correct.")
+except ImportError as e:
+    st.error(f"Import failed: {str(e)}")
+    # Provide detailed debugging info
+    st.code(f"""
+    Current directory: {os.listdir('.')}
+    Parent directory: {os.listdir('..')}
+    sys.path: {sys.path}
+    """)
+    
+    # Create dummy function to prevent complete failure
     def predict_stroke_risk(*args, **kwargs):
-        raise ImportError(f"stroke_predictor_pkl module not found: {e}")
+        st.error("Model loading failed - running in fallback mode")
+        return {"status": "error", "error": "Model not loaded"}
 
 def patient_data_entry():
     st.set_page_config(page_title="Patient Data Entry", layout="wide")
