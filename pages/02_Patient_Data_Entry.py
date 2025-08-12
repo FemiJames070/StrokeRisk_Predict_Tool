@@ -3,11 +3,7 @@ import pandas as pd
 import sys
 import os
 # Get the absolute path to the current file (in pages/)
-# Get two directories up from pages/
-root_path = Path(__file__).parent.parent
-sys.path.append(str(root_path))
-
-from stroke_predictor_pkl import predict_stroke_risk
+from ..stroke_predictor_pkl import predict_stroke_risk
     
     # Create dummy function to prevent complete failure
     def predict_stroke_risk(*args, **kwargs):
