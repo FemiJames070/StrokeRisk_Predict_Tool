@@ -3,12 +3,12 @@ import pandas as pd
 import sys
 import os
 # Get the absolute path to the current file (in pages/)
-from ..stroke_predictor_pkl import predict_stroke_risk
-    
-    # Create dummy function to prevent complete failure
-    def predict_stroke_risk(*args, **kwargs):
-        st.error("Model loading failed - running in fallback mode")
-        return {"status": "error", "error": "Model not loaded"}
+from pathlib import Path
+
+# DEBUG: Show exact path being checked
+target_file = Path(__file__).parent.parent / "stroke_predictor_pkl.py"
+st.error(f"SEARCHING FOR FILE AT: {target_file}")
+st.error(f"FILE EXISTS? {target_file.exists()}")
 
 def patient_data_entry():
     st.set_page_config(page_title="Patient Data Entry", layout="wide")
