@@ -13,7 +13,7 @@ sys.path.insert(0, str(project_root))
 
 # Now import
 try:
-    from stroke_predictor_pkl import predict_stroke_risk
+    from stroke_predictor_pkl.py import predict_stroke_risk
 except ImportError as e:
     st.error(f"Import failed: {str(e)}")
     st.write(f"Current search path: {sys.path}")
