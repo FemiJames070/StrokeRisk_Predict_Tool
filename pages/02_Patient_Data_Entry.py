@@ -3,21 +3,11 @@ import pandas as pd
 import sys
 import os
 # Get the absolute path to the current file (in pages/)
-current_file = Path(__file__).resolve()
+# Get two directories up from pages/
+root_path = Path(__file__).parent.parent
+sys.path.append(str(root_path))
 
-# Go up two levels to reach main directory
-project_root = current_file.parent.parent
-
-# Add to Python path
-sys.path.insert(0, str(project_root))
-
-# Now import
-try:
-    from stroke_predictor_pkl.py import predict_stroke_risk
-except ImportError as e:
-    st.error(f"Import failed: {str(e)}")
-    st.write(f"Current search path: {sys.path}")
-    st.write(f"Files in root: {os.listdir(project_root)}")
+from stroke_predictor_pkl import predict_stroke_risk
     
     # Create dummy function to prevent complete failure
     def predict_stroke_risk(*args, **kwargs):
