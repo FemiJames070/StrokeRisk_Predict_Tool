@@ -2,25 +2,22 @@ import streamlit as st
 import pandas as pd
 import sys
 import os
-# Get the absolute path to the root of your project
-current_dir = os.path.dirname(os.path.abspath(__file__))
-# Get the project root (one level up from pages/)
-project_root = os.path.abspath(os.path.join(current_dir, '..'))
+# Get the absolute path to the current file (in pages/)
+current_file = Path(__file__).resolve()
+
+# Go up two levels to reach main directory
+project_root = current_file.parent.parent
 
 # Add to Python path
-sys.path.insert(0, project_root)
+sys.path.insert(0, str(project_root))
 
-# Now try importing with better error handling
+# Now import
 try:
     from stroke_predictor_pkl import predict_stroke_risk
 except ImportError as e:
     st.error(f"Import failed: {str(e)}")
-    # Provide detailed debugging info
-    st.code(f"""
-    Current directory: {os.listdir('.')}
-    Parent directory: {os.listdir('..')}
-    sys.path: {sys.path}
-    """)
+    st.write(f"Current search path: {sys.path}")
+    st.write(f"Files in root: {os.listdir(project_root)}")
     
     # Create dummy function to prevent complete failure
     def predict_stroke_risk(*args, **kwargs):
